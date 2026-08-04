@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const requestLogger = require('./middlewares/requestLogger');
 const errorHandler = require('./middlewares/errorHandler');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// auth and note routes get mounted here in later steps
+app.use('/api/auth', authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
