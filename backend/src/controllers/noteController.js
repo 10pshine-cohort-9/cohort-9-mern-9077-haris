@@ -22,7 +22,7 @@ async function getNote(req, res, next) {
 
 async function createNote(req, res, next) {
   try {
-    const { title, content } = req.body;
+    const { title, content } = req.body ?? {};
 
     if (typeof title !== 'string' || title.trim().length === 0 || title.length > 200) {
       return sendError(res, 400, 'Title must be a non-empty string of at most 200 characters');
@@ -42,7 +42,7 @@ async function createNote(req, res, next) {
 
 async function updateNote(req, res, next) {
   try {
-    const { title, content } = req.body;
+    const { title, content } = req.body ?? {};
 
     if (typeof title !== 'string' || title.trim().length === 0 || title.length > 200) {
       return sendError(res, 400, 'Title must be a non-empty string of at most 200 characters');
