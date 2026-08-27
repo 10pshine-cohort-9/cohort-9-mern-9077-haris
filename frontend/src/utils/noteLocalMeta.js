@@ -8,9 +8,12 @@ function readAll() {
   }
 }
 
-function writeAll(meta) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(meta));
-}
+const writeAll = (meta) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(meta));
+  } catch {
+  }
+};
 
 export function getNoteMeta(id) {
   return readAll()[id] || { color: 'yellow', favorite: false };

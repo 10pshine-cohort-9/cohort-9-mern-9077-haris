@@ -152,11 +152,12 @@ export default function SignupPage() {
         <form onSubmit={handleSubmit} noValidate>
 
           <div className="mt-4">
-            <label className="block text-stone-700 text-sm font-medium">
+            <label htmlFor="signup-name" className="block text-stone-700 text-sm font-medium">
               Name
             </label>
 
             <input
+              id="signup-name"
               type="text"
               placeholder="John Doe"
               className={`w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 placeholder:text-stone-400 ${
@@ -166,21 +167,24 @@ export default function SignupPage() {
               }`}
               value={name}
               onChange={handleNameChange}
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? 'signup-name-error' : undefined}
             />
 
             {errors.name && (
-              <p className="mt-1.5 text-xs text-red-600">
+              <p id="signup-name-error" className="mt-1.5 text-xs text-red-600">
                 {errors.name}
               </p>
             )}
           </div>
 
           <div className="mt-4">
-            <label className="block text-stone-700 text-sm font-medium">
+            <label htmlFor="signup-email" className="block text-stone-700 text-sm font-medium">
               Email
             </label>
 
             <input
+              id="signup-email"
               type="email"
               placeholder="john@gmail.com"
               className={`w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 placeholder:text-stone-400 ${
@@ -190,22 +194,25 @@ export default function SignupPage() {
               }`}
               value={email}
               onChange={handleEmailChange}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'signup-email-error' : undefined}
             />
 
             {errors.email && (
-              <p className="mt-1.5 text-xs text-red-600">
+              <p id="signup-email-error" className="mt-1.5 text-xs text-red-600">
                 {errors.email}
               </p>
             )}
           </div>
 
           <div className="mt-4">
-            <label className="block text-stone-700 text-sm font-medium">
+            <label htmlFor="signup-password" className="block text-stone-700 text-sm font-medium">
               Password
             </label>
 
             <div className="relative mt-2">
               <input
+                id="signup-password"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="At least 8 characters"
                 className={`w-full px-4 py-2 pr-11 border rounded-md focus:outline-none focus:ring-2 placeholder:text-stone-400 ${
@@ -215,6 +222,8 @@ export default function SignupPage() {
                 }`}
                 value={password}
                 onChange={handlePasswordChange}
+                aria-invalid={!!errors.password}
+                aria-describedby={errors.password ? 'signup-password-error' : undefined}
               />
 
               <button
@@ -274,7 +283,7 @@ export default function SignupPage() {
             </div>
 
             {errors.password && (
-              <p className="mt-1.5 text-xs text-red-600">
+              <p id="signup-password-error" className="mt-1.5 text-xs text-red-600">
                 {errors.password}
               </p>
             )}

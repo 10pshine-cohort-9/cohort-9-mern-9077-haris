@@ -37,17 +37,25 @@ export default function DashboardPage() {
   const [viewingNote, setViewingNote] = useState(null);
 
   const sortDropdownRef = useRef(null);
+  const latestRequestId = useRef(0);
 
   const fetchNotes = useCallback(async (query) => {
+    const requestId = ++latestRequestId.current;
     setLoading(true);
     setError('');
     try {
       const data = await getNotes(query);
-      setNotes(attachLocalMeta(data));
+      if (requestId === latestRequestId.current) {
+        setNotes(attachLocalMeta(data));
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load notes');
+      if (requestId === latestRequestId.current) {
+        setError(err.response?.data?.message || 'Failed to load notes');
+      }
     } finally {
-      setLoading(false);
+      if (requestId === latestRequestId.current) {
+        setLoading(false);
+      }
     }
   }, []);
 

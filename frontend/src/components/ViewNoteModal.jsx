@@ -1,5 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 const COLOR_MAP = {
   yellow: 'bg-yellow-100 border-yellow-200 text-amber-950',
@@ -34,9 +35,13 @@ export default function ViewNoteModal({ note, onClose }) {
           </p>
         </div>
 
-        <div 
+        <div
           className="note-content text-stone-800"
-          dangerouslySetInnerHTML={{ __html: note.content || '<p class="text-stone-400 italic">No content</p>' }}
+          dangerouslySetInnerHTML={{
+            __html: note.content
+              ? DOMPurify.sanitize(note.content)
+              : '<p class="text-stone-400 italic">No content</p>',
+          }}
         />
       </div>
     </div>

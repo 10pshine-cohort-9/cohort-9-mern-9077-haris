@@ -12,14 +12,21 @@ const NOTE_COLORS = {
 
 function stripHtml(html) {
   if (!html) return '';
-  return html
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
+  const formattedHtml = html
+    .replace(/<\/(p|div|h[1-6]|li|tr)>\s*/gi, '\n')
+    .replace(/<br\s*\/?>/gi, '\n');
+  const doc = new DOMParser().parseFromString(formattedHtml, 'text/html');
+  let text = doc.body.textContent || '';
+
+  return text
+    .replace(/[ \t]*([.,!?:;])/g, '$1')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n\s*\n+/g, '\n')
     .trim();
 }
 
 export default function NoteCard({ note, onDelete, onToggleFavorite, onView }) {
-  const preview = stripHtml(note.content).slice(0, 120);
+  const preview = stripHtml(note.content);
   const rotation = note.id % 2 === 0 ? 'rotate-1' : '-rotate-2';
   const bgColor = NOTE_COLORS[note.color] || NOTE_COLORS.yellow;
 
@@ -35,9 +42,11 @@ export default function NoteCard({ note, onDelete, onToggleFavorite, onView }) {
         </button>
       </div>
 
-      <p className="text-amber-800/80 text-sm flex-1 line-clamp-3">
-        {preview || 'No content yet'}
-      </p>
+      <div className="flex-1">
+        <p className="text-amber-800/80 text-sm line-clamp-3 whitespace-pre-line break-words overflow-hidden">
+          {preview || 'No content yet'}
+        </p>
+      </div>
 
       <div className="flex justify-between items-center mt-4 pt-3 border-t border-amber-900/10">
         <span className="text-xs text-amber-900/50">

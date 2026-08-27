@@ -96,11 +96,12 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} noValidate>
 
             <div className="mt-4">
-              <label className="block text-stone-700 text-sm font-medium">
+              <label htmlFor="login-email" className="block text-stone-700 text-sm font-medium">
                 Email
               </label>
 
               <input
+                id="login-email"
                 type="email"
                 placeholder="john@gmail.com"
                 className={`w-full px-4 py-2.5 mt-2 border rounded-md focus:outline-none focus:ring-2 placeholder:text-stone-400 ${
@@ -110,22 +111,25 @@ export default function LoginPage() {
                 }`}
                 value={email}
                 onChange={handleEmailChange}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'login-email-error' : undefined}
               />
 
               {errors.email && (
-                <p className="mt-1.5 text-xs text-red-600">
+                <p id="login-email-error" className="mt-1.5 text-xs text-red-600">
                   {errors.email}
                 </p>
               )}
             </div>
 
             <div className="mt-4">
-              <label className="block text-stone-700 text-sm font-medium">
+              <label htmlFor="login-password" className="block text-stone-700 text-sm font-medium">
                 Password
               </label>
 
               <div className="relative mt-2">
                 <input
+                  id="login-password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   className={`w-full px-4 py-2.5 pr-11 border rounded-md focus:outline-none focus:ring-2 placeholder:text-stone-400 ${
@@ -135,6 +139,8 @@ export default function LoginPage() {
                   }`}
                   value={password}
                   onChange={handlePasswordChange}
+                  aria-invalid={!!errors.password}
+                  aria-describedby={errors.password ? 'login-password-error' : undefined}
                 />
 
                 <button
@@ -194,7 +200,7 @@ export default function LoginPage() {
               </div>
 
               {errors.password && (
-                <p className="mt-1.5 text-xs text-red-600">
+                <p id="login-password-error" className="mt-1.5 text-xs text-red-600">
                   {errors.password}
                 </p>
               )}
