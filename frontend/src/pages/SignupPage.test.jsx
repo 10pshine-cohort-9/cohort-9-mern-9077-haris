@@ -51,5 +51,7 @@ describe('SignupPage', () => {
     await waitFor(() => {
       expect(authApi.signup).toHaveBeenCalledWith({ name: 'Test User', email: 'test@example.com', password: 'password123' });
     });
+    expect(localStorage.getItem('token')).toBe('fake-token');
+    expect(JSON.parse(localStorage.getItem('user'))).toEqual({ id: 1, name: 'Test User', email: 'test@example.com' });
   });
 });
