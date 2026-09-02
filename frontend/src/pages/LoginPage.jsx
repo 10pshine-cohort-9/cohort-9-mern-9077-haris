@@ -19,7 +19,7 @@ export default function LoginPage() {
 
     if (!email.trim()) {
       newErrors.email = 'Please enter your email.';
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    } else if (!/^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{2,63}$/.test(email)) {
       newErrors.email = 'Please enter a valid email address.';
     }
 

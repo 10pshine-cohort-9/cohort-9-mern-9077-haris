@@ -1,0 +1,11 @@
+{
+  "name": "notes-galore-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "sonar": "sonar"
+  },
+  "devDependencies": {
+    "@sonar/scan": "^4.3.0"
+  }
+}

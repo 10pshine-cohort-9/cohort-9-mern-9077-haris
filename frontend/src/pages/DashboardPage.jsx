@@ -98,6 +98,48 @@ export default function DashboardPage() {
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, favorite: updated.favorite } : n)));
   }
 
+
+
+  function renderNotesArea() {
+    if (loading) {
+      return <p className="text-stone-500">Loading...</p>;
+    }
+
+    if (sortedNotes.length === 0) {
+      if (search.trim()) {
+        return (
+          <div className="flex flex-col items-center justify-center py-16 text-stone-500">
+            <Frown className="w-12 h-12 text-amber-600/70 mb-3 stroke-[1.75]" />
+            <p className="text-stone-600 font-medium">No results found for "{search}"</p>
+          </div>
+        );
+      }
+      return (
+        <div className="flex flex-col items-center justify-center py-16 text-stone-500">
+          <BookOpen className="w-12 h-12 text-amber-600/70 mb-3 stroke-[1.75]" />
+          <p className="text-stone-600 font-medium">No notes yet.</p>
+          <p className="text-stone-600 font-medium">Create your first one.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {sortedNotes.map((note) => (
+          <NoteCard
+            key={note.id}
+            note={note}
+            onDelete={setPendingDelete}
+            onToggleFavorite={handleToggleFavorite}
+            onView={setViewingNote}
+          />
+        ))}
+      </div>
+    );
+  }
+
+
+
   const sortedNotes = [...notes].sort(SORTS[sortBy]);
   const favoriteCount = notes.filter((n) => n.favorite).length;
   const currentSortLabel = SORT_OPTIONS.find((opt) => opt.value === sortBy)?.label;
@@ -106,7 +148,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-100 to-amber-200">
       <nav className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-amber-200 shadow-sm p-4 flex justify-between items-center">
         <h1 className="text-xl font-bold text-amber-700">🗒️ Notes Galore</h1>
-        <button onClick={logoutUser} className="text-red-500 hover:text-red-700 font-semibold">Logout</button>
+        <button type="button" onClick={logoutUser} className="text-red-500 hover:text-red-700 font-semibold">Logout</button>
       </nav>
 
       <div className="p-6 md:p-10 max-w-5xl mx-auto">
@@ -139,7 +181,7 @@ export default function DashboardPage() {
           />
 
           <div className="relative" ref={sortDropdownRef}>
-            <button
+            <button 
               type="button"
               onClick={() => setIsSortOpen((prev) => !prev)}
               className="w-full sm:w-auto flex items-center justify-between gap-3 px-3.5 py-2 bg-white border border-stone-200/80 rounded-xl text-stone-700 text-sm font-medium shadow-sm hover:bg-stone-50/80 hover:border-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all cursor-pointer min-w-[170px]"
@@ -155,7 +197,7 @@ export default function DashboardPage() {
                 {SORT_OPTIONS.map((option) => {
                   const isSelected = sortBy === option.value;
                   return (
-                    <button
+                    <button 
                       key={option.value}
                       type="button"
                       onClick={() => {
@@ -179,37 +221,7 @@ export default function DashboardPage() {
         </div>
 
         {error && <p className="text-red-600 mb-4">{error}</p>}
-
-        {loading ? (
-          <p className="text-stone-500">Loading...</p>
-        ) : sortedNotes.length === 0 ? (
-          search.trim() ? (
-            /* Empty state when searching */
-            <div className="flex flex-col items-center justify-center py-16 text-stone-500">
-              <Frown className="w-12 h-12 text-amber-600/70 mb-3 stroke-[1.75]" />
-              <p className="text-stone-600 font-medium">No results found for "{search}"</p>
-            </div>
-          ) : (
-            /* Default empty state when user has no notes */
- <div className="flex flex-col items-center justify-center py-16 text-stone-500">
-  <BookOpen className="w-12 h-12 text-amber-600/70 mb-3 stroke-[1.75]" />
-  <p className="text-stone-600 font-medium">No notes yet.</p>
-  <p className="text-stone-600 font-medium">Create your first one.</p>
-</div>
-          )
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedNotes.map((note) => (
-              <NoteCard
-                key={note.id}
-                note={note}
-                onDelete={setPendingDelete}
-                onToggleFavorite={handleToggleFavorite}
-                onView={setViewingNote}
-              />
-            ))}
-          </div>
-        )}
+        {renderNotesArea()}
       </div>
 
       <ConfirmModal

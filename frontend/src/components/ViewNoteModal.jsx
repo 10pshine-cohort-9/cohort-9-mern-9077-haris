@@ -21,7 +21,7 @@ export default function ViewNoteModal({ note, onClose }) {
       <div 
         className={`relative w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 sm:p-8 rounded-2xl shadow-2xl border ${colorClass} animate-in fade-in zoom-in-95 duration-200`}
       >
-        <button 
+        <button type="button"
           onClick={onClose}
           className="absolute top-4 right-4 p-1.5 text-stone-500 hover:text-stone-800 rounded-lg transition-colors"
         >

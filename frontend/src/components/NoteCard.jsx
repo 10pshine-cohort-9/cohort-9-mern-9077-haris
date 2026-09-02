@@ -19,7 +19,7 @@ function stripHtml(html) {
   let text = doc.body.textContent || '';
 
   return text
-    .replace(/[ \t]*([.,!?:;])/g, '$1')
+    .replace(/[ \t]{1,20}(?=[.,!?:;])/g, '')
     .replace(/[ \t]+/g, ' ')
     .replace(/\n\s*\n+/g, '\n')
     .trim();
@@ -37,7 +37,7 @@ export default function NoteCard({ note, onDelete, onToggleFavorite, onView }) {
 
       <div className="flex justify-between items-start mt-2 mb-2 gap-2">
         <h3 className="font-bold text-amber-900 text-lg truncate">{note.title}</h3>
-        <button onClick={() => onToggleFavorite(note.id)} className="shrink-0" aria-label="Toggle favorite">
+        <button type="button" onClick={() => onToggleFavorite(note.id)} className="shrink-0" aria-label="Toggle favorite">
           <Heart size={18} className={note.favorite ? 'fill-red-500 text-red-500' : 'text-amber-900/30'} />
         </button>
       </div>
@@ -53,7 +53,7 @@ export default function NoteCard({ note, onDelete, onToggleFavorite, onView }) {
           {new Date(note.updated_at).toLocaleDateString()}
         </span>
         <div className="flex gap-3">
-          <button 
+          <button type="button" 
             onClick={() => onView(note)} 
             className="text-blue-700 hover:text-blue-900 text-sm font-bold transition-colors"
           >
@@ -65,7 +65,7 @@ export default function NoteCard({ note, onDelete, onToggleFavorite, onView }) {
           >
             Edit
           </Link>
-          <button 
+          <button type="button"
             onClick={() => onDelete(note.id)} 
             className="text-red-500 hover:text-red-700 text-sm font-bold transition-colors"
           >
