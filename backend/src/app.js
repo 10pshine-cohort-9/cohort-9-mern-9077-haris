@@ -6,7 +6,9 @@ const authRoutes = require('./routes/authRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const app = express();
 
-app.use(cors());
+app.disable('x-powered-by');
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+app.use(cors({origin: allowedOrigin,credentials: true,}));
 app.use(express.json());
 app.use(requestLogger);
 

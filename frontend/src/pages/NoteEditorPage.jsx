@@ -78,7 +78,7 @@ export default function NoteEditorPage() {
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl border border-amber-200 p-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-amber-700">{isNew ? 'New Note' : 'Edit Note'}</h2>
-          <button
+          <button type="button"
             onClick={handleFavoriteClick}
             disabled={isNew}
             title={isNew ? 'Save the note first to favorite it' : 'Favorite'}
@@ -117,7 +117,7 @@ export default function NoteEditorPage() {
         <RichTextEditor content={content} onChange={setContent} />
 
         <div className="flex gap-3 mt-6">
-          <button
+          <button type="button"
             onClick={handleSave}
             disabled={saving}
             className="px-6 py-2 bg-amber-500 text-white rounded-2xl font-semibold hover:bg-amber-600 transition shadow-md disabled:opacity-50"
